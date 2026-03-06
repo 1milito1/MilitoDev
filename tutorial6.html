@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solución de problemas en impresoras 3D | Milito Dev</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -8px;
+            left: 25%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+        
+        .step-number {
+            background-color: #667eea;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .img-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .img-container img {
+            width: 60%;
+            height: auto;
+            display: block;
+        }
+        
+        .img-caption {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 0.5rem;
+        }
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #667eea;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+           .thank-you-container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        
+        
+        .thank-you-container a {
+            background-color: #5A67D8;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .thank-you-container a:hover {
+            background-color: #434190;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+     <nav class="fixed w-full bg-white shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-code text-indigo-600 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-gray-900">Milito Dev</span>
+                    </div>
+                </div>
+               <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="/index.html" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Inicio</a>
+                    <a href="/index.html#servicios" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Servicios</a>
+                    <a href="/index.html#tutoriales" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Tutoriales</a>
+                    <a href="/index.html#descargas" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Descargas</a>
+                    <a href="/index.html#impresion3d" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">3D Printing</a>
+                    <a href="/index.html#contacto" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition duration-300">Contacto</a>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="/index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Inicio</a>
+                <a href="/index.html#servicios" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Servicios</a>
+                <a href="#tutoriales" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Tutoriales</a>
+                <a href="#descargas" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Descargas</a>
+                <a href="#impresion3d" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">3D Printing</a>
+                <a href="/index.html#contacto" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-gradient pt-24 pb-16 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-block px-3 py-1 text-xs font-semibold bg-white text-green-600 rounded-full mb-4">Impresión 3D</span>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">Solución de problemas en impresoras 3D</h1>
+      <p class="text-lg max-w-3xl mx-auto">Guía avanzada para diagnosticar y solucionar los problemas más comunes en impresoras 3D FDM.</p>
+      <div class="mt-6 flex items-center justify-center space-x-4 text-sm">
+        <div class="flex items-center"><i class="far fa-clock mr-2"></i><span>15 min lectura</span></div>
+        <div class="flex items-center"><i class="far fa-calendar mr-2"></i><span>Actualizado: 28/05/2025</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tutorial Content -->
+  <section class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="prose prose-indigo max-w-none">
+        <h2 class="section-title text-2xl font-bold text-gray-900 mb-8">1. Cama desnivelada</h2>
+        <p class="text-gray-600 mb-6">Una cama mal nivelada provoca falta de adherencia o boquilla muy pegada. Usa una hoja de papel para calibrar manualmente los ejes X e Y o activa la nivelación automática si tu impresora lo permite.</p>
+
+        <h2 class="section-title text-2xl font-bold text-gray-900 mb-8">2. Filamento atascado</h2>
+        <p class="text-gray-600 mb-6">Si el extrusor no empuja filamento, verifica:</p>
+        <ul class="text-gray-600 mb-4 space-y-2">
+          <li class="flex items-start"><i class="fas fa-tools text-green-500 mr-2 mt-1"></i><span>Temperatura correcta del hotend</span></li>
+          <li class="flex items-start"><i class="fas fa-tools text-green-500 mr-2 mt-1"></i><span>Obstrucciones visibles</span></li>
+          <li class="flex items-start"><i class="fas fa-tools text-green-500 mr-2 mt-1"></i><span>Engranaje de arrastre limpio</span></li>
+        </ul>
+
+        <h2 class="section-title text-2xl font-bold text-gray-900 mb-8">3. Warping (despegue de esquinas)</h2>
+        <p class="text-gray-600 mb-6">Suele ocurrir en piezas grandes. Soluciones:</p>
+        <ul class="text-gray-600 mb-4 space-y-2">
+          <li><strong>Usa una base adhesiva</strong>: cinta, pegamento o spray fijador.</li>
+          <li><strong>Aumenta la temperatura de cama</strong>: para mejorar la adhesión inicial.</li>
+          <li><strong>Habilita bordes (brim)</strong> en el slicer.</li>
+        </ul>
+
+        <h2 class="section-title text-2xl font-bold text-gray-900 mb-8">4. Stringing (hilos entre piezas)</h2>
+        <p class="text-gray-600 mb-6">Sucede por retracciones mal configuradas o temperaturas altas. Verifica:</p>
+        <ul class="text-gray-600 mb-4 space-y-2">
+          <li><strong>Activa retracción</strong> y ajusta distancia/velocidad</li>
+          <li><strong>Reduce temperatura</strong> del nozzle</li>
+          <li><strong>Activa Combing mode</strong> en Cura para evitar movimientos innecesarios</li>
+        </ul>
+
+        <h2 class="section-title text-2xl font-bold text-gray-900 mb-8">5. Bajo flujo o capas huecas</h2>
+        <p class="text-gray-600 mb-6">Causado por boquilla parcialmente obstruida o extrusión insuficiente. Prueba:</p>
+        <ul class="text-gray-600 mb-4 space-y-2">
+          <li>Limpiar la boquilla con aguja o cold pull</li>
+          <li>Revisar pasos/mm del extrusor</li>
+          <li>Aumentar flujo en el slicer (hasta 105-110%)</li>
+        </ul>
+
+        <h2 class="section-title text-2xl font-bold text-gray-900 mb-8">6. Artefactos en superficie</h2>
+        <p class="text-gray-600 mb-6">Ruidos o vibraciones pueden generar patrones no deseados. Recomendaciones:</p>
+        <ul class="text-gray-600 mb-4 space-y-2">
+          <li>Ajustar correas y poleas</li>
+          <li>Reducir velocidad de impresión</li>
+          <li>Colocar impresora en base firme</li>
+        </ul>
+
+        <h2 class="section-title text-2xl font-bold text-gray-900 mb-8">Conclusión</h2>
+        <p class="text-gray-600 mb-6">Diagnosticar correctamente los problemas comunes en impresión 3D te ahorrará tiempo y material. La observación cuidadosa y la calibración constante son claves.</p>
+
+        <ul class="text-gray-600 mb-8 space-y-2">
+          <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i><span>Identificación de errores comunes</span></li>
+          <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i><span>Soluciones prácticas y rápidas</span></li>
+          <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i><span>Consejos para evitar recurrencias</span></li>
+        </ul>
+
+         <div class="flex justify-center mt-12">
+                    <a href="../index.html" class="bg-indigo-600 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-indigo-700 transition duration-300 inline-flex items-center">
+                        <i class="fas fa-home mr-2"></i> Volver a la página principal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    
+    <!-- Footer -->
+      <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:justify-between">
+                <div class="mb-8 md:mb-0">
+                    <div class="flex items-center">
+                        <i class="fas fa-code text-indigo-500 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold">Milito Dev</span>
+                    </div>
+                    <p class="mt-4 text-gray-400 max-w-xs">Soluciones digitales creativas para desarrollo multiplataforma, web e impresión 3D.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Servicios</h3>
+                        <ul class="space-y-2">
+                            <li><a href="/index.html#servicios" class="text-gray-400 hover:text-white transition duration-300">Apps Multiplataforma</a></li>
+                            <li><a href="/index.html#servicios" class="text-gray-400 hover:text-white transition duration-300">Desarrollo Web</a></li>
+                            <li><a href="/index.html#impresion3d" class="text-gray-400 hover:text-white transition duration-300">Impresión 3D</a></li>
+                            <li><a href="/index.html#contacto" class="text-gray-400 hover:text-white transition duration-300">Consultoría</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Recursos</h3>
+                        <ul class="space-y-2">
+                            <li><a href="/tutoriales.html" class="text-gray-400 hover:text-white transition duration-300">Tutoriales</a></li>
+                            <li><a href="/descargas.html" class="text-gray-400 hover:text-white transition duration-300">Descargas</a></li>
+                            
+                        </ul>
+                    </div>
+                    
+                    <!--<div>
+                        <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Legal</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacidad</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Términos</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Cookies</a></li>
+                        </ul>
+                    </div>-->
+                </div>
+            </div>
+            
+            <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">© 2025 Milito Dev. Todos los derechos reservados.</p>
+               <!-- <div class="mt-4 md:mt-0 flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>-->
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    
+                    // Scroll to target
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add shadow to navbar on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+    </script>
+</body>
+</html>

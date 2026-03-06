@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construye un e-commerce con Next.js | Milito Dev</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -8px;
+            left: 25%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+        
+        .step-number {
+            background-color: #667eea;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .img-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .img-container img {
+            width: 60%;
+            height: auto;
+            display: block;
+        }
+        
+        .img-caption {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 0.5rem;
+        }
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #667eea;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+           .thank-you-container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        
+        
+        .thank-you-container a {
+            background-color: #5A67D8;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .thank-you-container a:hover {
+            background-color: #434190;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <nav class="fixed w-full bg-white shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-code text-indigo-600 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-gray-900">Milito Dev</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="/index.html" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Inicio</a>
+                    <a href="/index.html#servicios" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Servicios</a>
+                    <a href="/index.html#tutoriales" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Tutoriales</a>
+                    <a href="/index.html#descargas" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Descargas</a>
+                    <a href="/index.html#impresion3d" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">3D Printing</a>
+                    <a href="/index.html#contacto" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition duration-300">Contacto</a>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="/index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Inicio</a>
+                <a href="/index.html#servicios" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Servicios</a>
+                <a href="#tutoriales" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Tutoriales</a>
+                <a href="#descargas" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Descargas</a>
+                <a href="#impresion3d" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">3D Printing</a>
+                <a href="/index.html#contacto" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-gradient pt-24 pb-16 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <span class="inline-block px-3 py-1 text-xs font-semibold bg-white text-indigo-600 rounded-full mb-4">Tutorial Next.js</span>
+                <h1 class="text-3xl md:text-4xl font-bold mb-4">Construye un e-commerce con Next.js</h1>
+                <p class="text-lg max-w-3xl mx-auto">Tutorial completo para crear una tienda online moderna con Next.js, Stripe y Tailwind CSS.</p>
+                <div class="mt-6 flex items-center justify-center space-x-4 text-sm">
+                    <div class="flex items-center">
+                        <i class="far fa-clock mr-2"></i>
+                        <span>30 min lectura</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="far fa-calendar mr-2"></i>
+                        <span>Actualizado: 20/05/2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="prose prose-indigo max-w-none">
+                <h2 class="section-title text-2xl font-bold text-gray-900 mb-8">Introducción al E-commerce con Next.js</h2>
+                <p class="text-gray-600 mb-6">Crear una tienda online moderna y escalable es más fácil que nunca con las herramientas adecuadas. En este tutorial, te guiaremos paso a paso para construir un e-commerce completo utilizando la potencia de Next.js para el frontend, Stripe para la gestión de pagos y Tailwind CSS para un diseño responsivo y personalizable. Aprenderás a:</p>
+                
+                <ul class="text-gray-600 mb-8 space-y-2">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                        <span>Configurar un proyecto Next.js desde cero</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                        <span>Diseñar la interfaz de usuario con Tailwind CSS</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                        <span>Integrar la API de Stripe para procesar pagos</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                        <span>Gestionar productos y carritos de compra</span>
+                    </li>
+                </ul>
+                
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-8">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-info-circle text-blue-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-blue-700">
+                                <strong>Requisitos previos:</strong> Conocimientos básicos de JavaScript, React y Node.js. Asegúrate de tener Node.js y npm (o yarn) instalados en tu sistema.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="section-title text-2xl font-bold text-gray-900 mb-8 mt-12">Paso 1: Configuración del Proyecto Next.js</h2>
+                
+                <div class="flex items-start mb-8">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Crear un nuevo proyecto Next.js</h3>
+                        <p class="text-gray-600 mb-4">Abre tu terminal y ejecuta el siguiente comando para crear un nuevo proyecto Next.js:</p>
+                        <div class="code-block mb-4">
+                            <code>npx create-next-app my-ecommerce-app --typescript --tailwind --eslint</code>
+                        </div>
+                        <p class="text-gray-600 mb-4">Este comando creará un proyecto Next.js con TypeScript, Tailwind CSS y ESLint ya configurados, lo cual es ideal para nuestro e-commerce.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-8">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Navegar al directorio del proyecto</h3>
+                        <div class="code-block mb-4">
+                            <code>cd my-ecommerce-app</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-8">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Ejecutar la aplicación de desarrollo</h3>
+                        <p class="text-gray-600 mb-4">Para verificar que todo está funcionando correctamente, inicia el servidor de desarrollo:</p>
+                        <div class="code-block mb-4">
+                            <code>npm run dev</code>
+                        </div>
+                        <p class="text-gray-600 mb-4">Abre tu navegador y ve a `http://localhost:3000` para ver la página de bienvenida de Next.js.</p>
+                        <div class="img-container mb-4">
+                            <img src="https://i.postimg.cc/QtxV3h4w/nextjs-starter.png" alt="Página de inicio de Next.js por defecto">
+                            <div class="img-caption">Página de inicio de Next.js por defecto</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="section-title text-2xl font-bold text-gray-900 mb-8 mt-12">Paso 2: Diseño de la Interfaz con Tailwind CSS</h2>
+                
+                <div class="flex items-start mb-8">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Estructura básica del layout</h3>
+                        <p class="text-gray-600 mb-4">Vamos a crear un layout básico para nuestra aplicación, incluyendo una barra de navegación y un pie de página. Abre el archivo `src/app/layout.tsx` (si estás usando App Router) o `pages/_app.tsx` (si estás usando Pages Router) y modifica el `body` para incluir una estructura básica:</p>
+                        <div class="code-block mb-4">
+<pre>
+// src/app/layout.tsx (Ejemplo con App Router)
+import './globals.css';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={`min-h-screen flex flex-col ${inter.className}`}>
+        <header className="bg-gray-800 text-white p-4">
+          <nav className="container mx-auto flex justify-between items-center">
+            <a href="/" className="text-xl font-bold">Mi Tienda</a>
+            <div className="space-x-4">
+              <a href="/products" className="hover:text-gray-300">Productos</a>
+              <a href="/cart" className="hover:text-gray-300">Carrito</a>
+              <a href="/checkout" className="hover:text-gray-300">Checkout</a>
+            </div>
+          </nav>
+        </header>
+        <main className="flex-grow container mx-auto p-4">
+          {children}
+        </main>
+        <footer className="bg-gray-800 text-white p-4 text-center">
+          &copy; {new Date().getFullYear()} Mi Tienda. Todos los derechos reservados.
+        </footer>
+      </body>
+    </html>
+  );
+}
+</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-8">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Crear una página de productos</h3>
+                        <p class="text-gray-600 mb-4">Crea un nuevo archivo `src/app/products/page.tsx` (App Router) o `pages/products.tsx` (Pages Router) para mostrar una lista de productos. Usaremos clases de Tailwind para el estilo:</p>
+                        <div class="code-block mb-4">
+<pre>
+// src/app/products/page.tsx (Ejemplo con App Router)
+import React from 'react';
+
+const products = [
+  { id: 1, name: 'Camiseta Premium', price: 29.99, imageUrl: 'https://via.placeholder.com/150' },
+  { id: 2, name: 'Zapatillas Urbanas', price: 79.99, imageUrl: 'https://via.placeholder.com/150' },
+  { id: 3, name: 'Pantalón Cargo', price: 49.99, imageUrl: 'https://via.placeholder.com/150' },
+];
+
+export default function ProductsPage() {
+  return (
+    <div className="py-8">
+      <h1 className="text-3xl font-bold text-center mb-8">Nuestros Productos</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {products.map((product) => (
+          <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <img src={product.imageUrl} alt={product.name} className="w-full h-48 object-cover"/>
+            <div className="p-4">
+              <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
+              <p className="text-gray-700 text-lg mb-4">${product.price.toFixed(2)}</p>
+              <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 w-full">
+                Añadir al carrito
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+</pre>
+                        </div>
+                        <div class="img-container mb-4">
+                            <img src="https://i.postimg.cc/k47tXg5L/nextjs-tailwind-ecommerce.png" alt="Página de productos con Tailwind CSS">
+                            <div class="img-caption">Diseño de la página de productos con Tailwind CSS</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="section-title text-2xl font-bold text-gray-900 mb-8 mt-12">Paso 3: Integración de Stripe para Pagos</h2>
+                
+                <div class="flex items-start mb-8">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Instalar las dependencias de Stripe</h3>
+                        <p class="text-gray-600 mb-4">Necesitamos instalar las librerías de Stripe para el frontend y el backend:</p>
+                        <div class="code-block mb-4">
+                            <code>npm install @stripe/react-stripe-js @stripe/stripe-js stripe</code>
+                        </div>
+                        <p class="text-gray-600 mb-4">`@stripe/react-stripe-js` y `@stripe/stripe-js` son para el frontend, y `stripe` es para el backend (API Routes de Next.js).</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-8">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Configurar las claves de Stripe</h3>
+                        <p class="text-gray-600 mb-4">Crea un archivo `.env.local` en la raíz de tu proyecto y añade tus claves de API de Stripe. Puedes obtenerlas desde tu <a href="https://dashboard.stripe.com/test/apikeys" class="text-indigo-600 hover:underline" target="_blank">dashboard de Stripe</a> (usa las claves de prueba por ahora):</p>
+                        <div class="code-block mb-4">
+<pre>
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_TU_CLAVE_PUBLICABLE
+STRIPE_SECRET_KEY=sk_test_TU_CLAVE_SECRETA
+</pre>
+                        </div>
+                        <p class="text-gray-600 mb-4">Recuerda que las variables que empiezan con `NEXT_PUBLIC_` son accesibles en el lado del cliente.</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start mb-8">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Crear una API Route para el checkout</h3>
+                        <p class="text-gray-600 mb-4">Crea un archivo `src/app/api/checkout_sessions/route.ts` (App Router) o `pages/api/checkout_sessions.ts` (Pages Router) para manejar la creación de sesiones de checkout de Stripe:</p>
+                        <div class="code-block mb-4">
+<pre>
+// src/app/api/checkout_sessions/route.ts (Ejemplo con App Router)
+import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2023-10-16', // Usa la última versión de la API
+});
+
+export async function POST(req: NextRequest) {
+  try {
+    const { items } = await req.json();
+
+    const lineItems = items.map((item: any) => ({
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: item.price * 100, // Stripe expects amount in cents
+      },
+      quantity: item.quantity,
+    }));
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: lineItems,
+      mode: 'payment',
+      success_url: `${req.nextUrl.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.nextUrl.origin}/cancel`,
+    });
+
+    return NextResponse.json({ sessionId: session.id });
+  } catch (err: any) {
+    return NextResponse.json({ statusCode: 500, message: err.message }, { status: 500 });
+  }
+}
+</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="section-title text-2xl font-bold text-gray-900 mb-8 mt-12">Paso 4: Gestionar el Carrito de Compras</h2>
+                
+                <div class="flex items-start mb-8">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Implementar un Contexto de Carrito</h3>
+                        <p class="text-gray-600 mb-4">Para gestionar el estado del carrito de compras de manera global, utilizaremos el Context API de React. Crea un archivo `src/context/CartContext.tsx`:</p>
+                        <div class="code-block mb-4">
+<pre>
+// src/context/CartContext.tsx
+'use client'; // Necesario para componentes de cliente en App Router
+
+import React, { createContext, useState, useContext, ReactNode } from 'react';
+
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface CartContextType {
+  cart: CartItem[];
+  addToCart: (item: Omit<CartItem, 'quantity'>) => void;
+  removeFromCart: (id: number) => void;
+  updateQuantity: (id: number, quantity: number) => void;
+  clearCart: () => void;
+  getTotalPrice: () => number;
+}
+
+const CartContext = createContext<CartContextType | undefined>(undefined);
+
+export function CartProvider({ children }: { children: ReactNode }) {
+  const [cart, setCart] = useState<CartItem[]>([]);
+
+  const addToCart = (item: Omit<CartItem, 'quantity'>) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
+      if (existingItem) {
+        return prevCart.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      }
+      return [...prevCart, { ...item, quantity: 1 }];
+    });
+  };
+
+  const removeFromCart = (id: number) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
+  const updateQuantity = (id: number, quantity: number) => {
+    setCart((prevCart) =>
+      prevCart.map((cartItem) =>
+        cartItem.id === id ? { ...cartItem, quantity: quantity } : cartItem
+      ).filter(item => item.quantity > 0) // Eliminar si la cantidad llega a 0
+    );
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  return (
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, getTotalPrice }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+export function useCart() {
+  const context = useContext(CartContext);
+  if (context === undefined) {
+    throw new Error('useCart must be used within a CartProvider');
+  }
+  return context;
+}
+</pre>
+                        </div>
+                        <p class="text-gray-600 mb-4">Envuelve tu aplicación con el `CartProvider` en `src/app/layout.tsx` o `pages/_app.tsx`:</p>
+                        <div class="code-block mb-4">
+<pre>
+// src/app/layout.tsx (Modificación en App Router)
+import './globals.css';
+import { Inter } from 'next/font/google';
+import { CartProvider } from '../context/CartContext'; // Asegúrate de que la ruta sea correcta
+
+const inter = Inter({ subsets: ['latin'] });
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={`min-h-screen flex flex-col ${inter.className}`}>
+        <CartProvider> {/* Envuelve tu app con el proveedor de carrito */}
+          <header className="bg-gray-800 text-white p-4">
+            <nav className="container mx-auto flex justify-between items-center">
+              <a href="/" className="text-xl font-bold">Mi Tienda</a>
+              <div className="space-x-4">
+                <a href="/products" className="hover:text-gray-300">Productos</a>
+                <a href="/cart" className="hover:text-gray-300">Carrito</a>
+                <a href="/checkout" className="hover:text-gray-300">Checkout</a>
+              </div>
+            </nav>
+          </header>
+          <main className="flex-grow container mx-auto p-4">
+            {children}
+          </main>
+          <footer className="bg-gray-800 text-white p-4 text-center">
+            &copy; {new Date().getFullYear()} Mi Tienda. Todos los derechos reservados.
+          </footer>
+        </CartProvider>
+      </body>
+    </html>
+  );
+}
+</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-start mb-8">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800 mb-2">Crear la página del Carrito</h3>
+                        <p class="text-gray-600 mb-4">Crea un archivo `src/app/cart/page.tsx` (App Router) o `pages/cart.tsx` (Pages Router) para mostrar los ítems del carrito y permitir la interacción:</p>
+                        <div class="code-block mb-4">
+<pre>
+// src/app/cart/page.tsx (Ejemplo con App Router)
+'use client';
+
+import React from 'react';
+import { useCart } from '../../context/CartContext';
+import { useRouter } from 'next/navigation'; // Para App Router
+
+export default function CartPage() {
+  const { cart, removeFromCart, updateQuantity, getTotalPrice } = useCart();
+  const router = useRouter();
+
+  const handleCheckout = async () => {
+    if (cart.length === 0) {
+      alert('Tu carrito está vacío.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/checkout_sessions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items: cart }),
+      });
+
+      const { sessionId } = await response.json();
+      // Redirigir a la página de checkout de Stripe
+      router.push(`https://checkout.stripe.com/pay/${sessionId}`);
+    } catch (error) {
+      console.error('Error al iniciar el checkout:', error);
+      alert('Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.');
+    }
+  };
+
+  return (
+    <div className="py-8">
+      <h1 className="text-3xl font-bold text-center mb-8">Tu Carrito de Compras</h1>
+      {cart.length === 0 ? (
+        <p className="text-center text-gray-600">Tu carrito está vacío.</p>
+      ) : (
+        <div className="bg-white rounded-lg shadow-md p-6">
+          {cart.map((item) => (
+            <div key={item.id} className="flex items-center justify-between border-b pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
+              <div className="flex items-center">
+                <img src={https://via.placeholder.com/50?text=${item.name.slice(0,1)}} alt={item.name} className="w-16 h-16 object-cover rounded-md mr-4"/>
+                <div>
+                  <h2 className="text-lg font-semibold">{item.name}</h2>
+                  <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <input
+                  type="number"
+                  min="1"
+                  value={item.quantity}
+                  onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
+                  className="w-20 p-2 border rounded-md text-center"
+                />
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="text-red-600 hover:text-red-800"
+                >
+                  <i className="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          ))}
+          <div className="text-right mt-6 pt-4 border-t">
+            <p className="text-xl font-bold">Total: ${getTotalPrice().toFixed(2)}</p>
+            <button
+              onClick={handleCheckout}
+              className="mt-4 bg-green-600 text-white px-6 py-3 rounded-md text-lg hover:bg-green-700 transition duration-300"
+            >
+              Proceder al Pago
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+</pre>
+                        </div>
+                        <div class="img-container mb-4">
+                            <img src="https://i.postimg.cc/QtxV3h4w/nextjs-tailwind-ecommerce-cart.png" alt="Página del carrito de compras">
+                            <div class="img-caption">Vista del carrito de compras</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="section-title text-2xl font-bold text-gray-900 mb-8 mt-12">Conclusión</h2>
+                
+                <p class="text-gray-600 mb-6">¡Excelente trabajo! Has construido la base de un e-commerce moderno con Next.js, Stripe y Tailwind CSS. En este tutorial, cubrimos los fundamentos esenciales:</p>
+                
+                <ul class="text-gray-600 mb-8 space-y-2">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                        <span>Configurar un entorno de desarrollo Next.js</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                        <span>Diseñar interfaces atractivas con Tailwind CSS</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                        <span>Integrar la pasarela de pagos de Stripe</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                        <span>Implementar una lógica básica de carrito de compras</span>
+                    </li>
+                </ul>
+                
+                <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 mb-8">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-lightbulb text-indigo-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-indigo-700">
+                                <strong>Próximos pasos:</strong> Para llevar tu e-commerce al siguiente nivel, puedes explorar la persistencia del carrito con almacenamiento local, autenticación de usuarios, gestión de stock, filtrado y búsqueda de productos, y despliegue a producción. ¡El camino hacia tu tienda online perfecta acaba de empezar!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center mt-12">
+                    <a href="../index.html" class="bg-indigo-600 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-indigo-700 transition duration-300 inline-flex items-center">
+                        <i class="fas fa-home mr-2"></i> Volver a la página principal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    
+   <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:justify-between">
+                <div class="mb-8 md:mb-0">
+                    <div class="flex items-center">
+                        <i class="fas fa-code text-indigo-500 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold">Milito Dev</span>
+                    </div>
+                    <p class="mt-4 text-gray-400 max-w-xs">Soluciones digitales creativas para desarrollo multiplataforma, web e impresión 3D.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Servicios</h3>
+                        <ul class="space-y-2">
+                            <li><a href="/index.html#servicios" class="text-gray-400 hover:text-white transition duration-300">Apps Multiplataforma</a></li>
+                            <li><a href="/index.html#servicios" class="text-gray-400 hover:text-white transition duration-300">Desarrollo Web</a></li>
+                            <li><a href="/index.html#impresion3d" class="text-gray-400 hover:text-white transition duration-300">Impresión 3D</a></li>
+                            <li><a href="/index.html#contacto" class="text-gray-400 hover:text-white transition duration-300">Consultoría</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Recursos</h3>
+                        <ul class="space-y-2">
+                            <li><a href="/tutoriales.html" class="text-gray-400 hover:text-white transition duration-300">Tutoriales</a></li>
+                            <li><a href="/descargas.html" class="text-gray-400 hover:text-white transition duration-300">Descargas</a></li>
+                            
+                        </ul>
+                    </div>
+                    
+                    <!--<div>
+                        <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Legal</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacidad</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Términos</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Cookies</a></li>
+                        </ul>
+                    </div>-->
+                </div>
+            </div>
+            
+            <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">© 2025 Milito Dev. Todos los derechos reservados.</p>
+               <!-- <div class="mt-4 md:mt-0 flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>-->
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            var mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

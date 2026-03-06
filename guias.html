@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guías PDF | Milito Dev</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #8294e5 0%, #d7b3fb 100%);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            bottom: -8px;
+            left: 25%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #667eea;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .input-focus:focus {
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5);
+        }
+        
+        .category-chip {
+            transition: all 0.3s ease;
+        }
+        
+        .category-chip.active {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .tutorial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .tutorial-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .difficulty-beginner {
+            background-color: #10b981;
+            color: white;
+        }
+        
+        .difficulty-intermediate {
+            background-color: #f59e0b;
+            color: white;
+        }
+        
+        .difficulty-advanced {
+            background-color: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+      <nav class="fixed w-full bg-white shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="index.html" class="flex items-center">
+                            <i class="fas fa-code text-indigo-600 text-2xl mr-2"></i>
+                            <span class="text-xl font-bold text-gray-900">Milito Dev</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="/index.html" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Inicio</a>
+                    <a href="index.html#servicios" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Servicios</a>
+                    <a href="/tutoriales.html" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">Tutoriales</a>
+                    <a href="index.html#descargas" class="nav-link text-indigo-600 px-3 py-2 text-sm font-medium">Descargas</a>
+                    <a href="index.html#impresion3d" class="nav-link text-gray-900 px-3 py-2 text-sm font-medium">3D Printing</a>
+                    <a href="/index.html#contacto" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition duration-300">Contacto</a>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html#inicio" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Inicio</a>
+                <a href="index.html#servicios" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">Servicios</a>
+                <a href="tutoriales.html" class="block px-3 py-2 rounded-md text-base font-medium  text-gray-900 hover:bg-gray-50">Tutoriales</a>
+                <a href="index.html#descargas" class="block px-3 py-2 rounded-md text-base font-medium text-indigo-600 bg-indigo-50">Descargas</a>
+                <a href="index.html#impresion3d" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-50">3D Printing</a>
+                <a href="index.html#contacto" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">Contacto</a>
+            </div>
+        </div>
+    </nav>
+  <section class="hero-gradient pt-32 pb-20 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl font-bold mb-4">Guías en PDF</h1>
+      <p class="text-lg">Aprende sobre frameworks y herramientas con nuestras guías descargables.</p>
+    </div>
+  </section>
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-8">
+      <aside class="md:w-1/4">
+        <div class="bg-white p-6 rounded-xl shadow-sm sticky top-24">
+          <h3 class="text-lg font-bold text-gray-900 mb-4">Tecnologías</h3>
+          <button class="category-chip active w-full px-4 py-2 rounded-full bg-blue-100 text-blue-700" data-category="all">Todas</button>
+          <button class="category-chip w-full px-4 py-2 rounded-full bg-gray-100 text-gray-700" data-category="react">React</button>
+          <button class="category-chip w-full px-4 py-2 rounded-full bg-gray-100 text-gray-700" data-category="vue">Vue</button>
+          <button class="category-chip w-full px-4 py-2 rounded-full bg-gray-100 text-gray-700" data-category="angular">Angular</button>
+          <h3 class="text-lg font-bold text-gray-900 mt-8 mb-4">Buscar</h3>
+          <input id="guide-search" type="text" placeholder="Buscar guía..." class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500">
+        </div>
+      </aside>
+      <main class="md:w-3/4">
+        <div class="grid md:grid-cols-2 gap-6" id="guia-container">
+          <div class="guia-card bg-white rounded-xl shadow-md p-6 card-hover" data-category="react">
+            <div class="flex justify-between mb-4">
+              <h2 class="text-lg font-semibold">Guía React Avanzado</h2>
+              <i class="fab fa-react text-blue-500 text-xl"></i>
+            </div>
+            <p class="text-gray-600 mb-4">Hooks, contexto y rendimiento en apps React modernas.</p>
+            <a href="/descargas/guia-react.pdf" download class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Descargar PDF</a>
+          </div>
+        </div>
+        <div class="mt-12 flex justify-center">
+          <nav class="inline-flex rounded-md shadow-sm">
+            <a href="#" class="px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">1</a>
+            <a href="#" class="px-4 py-2 border-t border-b border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</a>
+          </nav>
+        </div>
+      </main>
+    </div>
+  </section>
+   <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:justify-between">
+                <div class="mb-8 md:mb-0">
+                    <div class="flex items-center">
+                        <i class="fas fa-code text-indigo-500 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold">Milito Dev</span>
+                    </div>
+                    <p class="mt-4 text-gray-400 max-w-xs">Soluciones digitales creativas para desarrollo multiplataforma, web e impresión 3D.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Servicios</h3>
+                        <ul class="space-y-2">
+                            <li><a href="/index.html#servicios" class="text-gray-400 hover:text-white transition duration-300">Apps Multiplataforma</a></li>
+                            <li><a href="/index.html#servicios" class="text-gray-400 hover:text-white transition duration-300">Desarrollo Web</a></li>
+                            <li><a href="/index.html#impresion3d" class="text-gray-400 hover:text-white transition duration-300">Impresión 3D</a></li>
+                            <li><a href="/index.html#contacto" class="text-gray-400 hover:text-white transition duration-300">Consultoría</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Recursos</h3>
+                        <ul class="space-y-2">
+                            <li><a href="/tutoriales.html" class="text-gray-400 hover:text-white transition duration-300">Tutoriales</a></li>
+                            <li><a href="/descargas.html" class="text-gray-400 hover:text-white transition duration-300">Descargas</a></li>
+                            
+                        </ul>
+                    </div>
+                    
+                    <!--<div>
+                        <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase mb-4">Legal</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacidad</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Términos</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Cookies</a></li>
+                        </ul>
+                    </div>-->
+                </div>
+            </div>
+            
+            <div class="mt-12 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">© 2025 Milito Dev. Todos los derechos reservados.</p>
+               <!-- <div class="mt-4 md:mt-0 flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>-->
+            </div>
+        </div>
+    </footer>
+  <script>
+    const guiaChips = document.querySelectorAll('.category-chip');
+    const guiaCards = document.querySelectorAll('.guia-card');
+    const guiaInput = document.getElementById('guide-search');
+    guiaChips.forEach(chip => chip.addEventListener('click', () => {
+      guiaChips.forEach(c => c.classList.remove('active', 'bg-blue-100', 'text-blue-700'));
+      chip.classList.add('active', 'bg-blue-100', 'text-blue-700');
+      filterGuia(chip.dataset.category, guiaInput.value);
+    }));
+    guiaInput.addEventListener('input', () => {
+      const active = document.querySelector('.category-chip.active').dataset.category;
+      filterGuia(active, guiaInput.value);
+    });
+    function filterGuia(cat, text) {
+      guiaCards.forEach(card => {
+        const catMatch = cat === 'all' || card.dataset.category === cat;
+        const nameMatch = card.querySelector('h2').textContent.toLowerCase().includes(text.toLowerCase());
+        card.style.display = catMatch && nameMatch ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
